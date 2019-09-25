@@ -31,7 +31,7 @@ function startGame() {
 
 function playGame() {
     console.log('Play game!');
-    if (setting.start === true) {
+    if (setting.start) {
         requestAnimationFrame(playGame);
     }
     requestAnimationFrame(playGame);
