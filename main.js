@@ -1,48 +1,68 @@
-const score = document.querySelector('.score'),
-    start = document.querySelector('.start'),
-    gameArea = document.querySelector('.gameArea'),
-    car = document.createElement('div');
+const score = document.querySelector(".score"),
+  start = document.querySelector(".start"),
+  gameArea = document.querySelector(".gameArea"),
+  car = document.createElement("div");
 
-car.classList.add('car');
+car.classList.add("car");
 
-start.addEventListener('click', startGame);
-document.addEventListener('keydown', startRun);
-document.addEventListener('keyup', stopRun);
+start.addEventListener("click", startGame);
+document.addEventListener("keydown", startRun);
+document.addEventListener("keyup", stopRun);
 
 const keys = {
-    ArrowUp: false,
-    ArrowDown: false,
-    ArrowRight: false,
-    ArrowLeft: false
+  ArrowUp: false,
+  ArrowDown: false,
+  ArrowRight: false,
+  ArrowLeft: false
 };
 
 const setting = {
-    start: false,
-    score: 0,
-    speed: 3
+  start: false,
+  score: 0,
+  speed: 3
 };
 
 function startGame() {
-    start.classList.add('hide');
-    setting.start = true;
-    gameArea.appendChild(car);
-    requestAnimationFrame(playGame);
+  start.classList.add("hide");
+  setting.start = true;
+  setting.x = car.offsetLeft;
+  setting.y = car.offsetTop;
+  gameArea.appendChild(car);
+  requestAnimationFrame(playGame);
 }
 
 function playGame() {
-    console.log('Play game!');
-    if (setting.start) {
-        requestAnimationFrame(playGame);
+  console.log("Play game!");
+  if (setting.start) {
+    if (keys.ArrowLeft) {
+      setting.x -= setting.speed;
     }
-    requestAnimationFrame(playGame);
+
+    if (keys.ArrowRight) {
+      setting.x += setting.speed;
+    }
+
+    if (keys.ArrowUp) {
+      setting.y -= setting.speed;
+    }
+
+    if (keys.ArrowDown) {
+      setting.y += setting.speed;
+    }
+  }
+
+  car.style.left = setting.x + "px";
+  car.style.top = setting.y + "px";
+
+  requestAnimationFrame(playGame);
 }
 
 function startRun(event) {
-    event.preventDefault();
-    keys[event.key] = true;
+  event.preventDefault();
+  keys[event.key] = true;
 }
 
 function stopRun(event) {
-    event.preventDefault();
-    keys[event.key] = false;
+  event.preventDefault();
+  keys[event.key] = false;
 }
